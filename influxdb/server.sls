@@ -25,7 +25,7 @@ influxdb_config:
   - source: salt://influxdb/files/influxdb.conf
   - template: jinja
   - require:
-    - pkg: influxdb_packages
+    - pkg: influxdb_install
 
 influxdb_default:
   file.managed:
@@ -33,7 +33,7 @@ influxdb_default:
   - source: salt://influxdb/files/default
   - template: jinja
   - require:
-    - pkg: influxdb_packages
+    - pkg: influxdb_install
 
 influxdb_service:
   service.running:
