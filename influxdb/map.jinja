@@ -2,8 +2,10 @@
 
 {%- load_yaml as base_defaults %}
 default:
-  pkgs:
-  - influxdb
+  version: 1.2.4
+  pkgsuffix: '_adm64.deb'
+  source_url: 'https://dl.influxdata.com/influxdb/releases/influxdb_'
+  source_hash: '0545d67217393282188e5d5cdedfdc85'
   service: influxdb
   reporting_disabled: true
   http:

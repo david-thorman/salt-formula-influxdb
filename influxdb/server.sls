@@ -2,9 +2,22 @@
 
 {%- if server.enabled %}
 
-influxdb_packages:
+
+influxdb_pkg:
+  file.managed:
+    - name: /tmp/influxdb_{{ server.version }}{{ server.pkgsuffix }}
+    - source: {{ server.source_url }}{{ server.version }}{{ server.pkgsuffix }}
+    - source_hash: md5={{ server.source_hash }}
+    - unless: test -f /tmp/influxdb_{{ server.version }}{{ server.pkgsuffix }}
+
+influxdb_install:
   pkg.installed:
-  - names: {{ server.pkgs }}
+    - sources:
+      - influxdb: /tmp/influxdb_{{ server.version }}{{ server.pkgsuffix }}
+    - require:
+      - file: influxdb_pkg
+    - watch:
+      - file: influxdb_pkg
 
 influxdb_config:
   file.managed:
