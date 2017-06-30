@@ -1,6 +1,5 @@
 {%- from "influxdb/map.jinja" import server with context %}
 
-{%- if server.enabled %}
 
 
 influxdb_pkg:
@@ -36,8 +35,8 @@ influxdb_default:
     - pkg: influxdb_install
 
 influxdb_service:
-  service.running:
-  - enable: true
+  service.{{ "running" if server.enabled else "dead"}}:
+  - enable: {{ server.enabled }}
   - name: {{ server.service }}
   # This delay is needed before being able to send data to server to create
   # users and databases.
@@ -48,6 +47,8 @@ influxdb_service:
   - watch:
     - file: influxdb_config
     - file: influxdb_default
+
+{%- if server.enabled %}
 
 {% set url_for_query = "http://{}:{}/query".format(server.http.bind.address, server.http.bind.port) %}
 {% set admin_created = false %}
