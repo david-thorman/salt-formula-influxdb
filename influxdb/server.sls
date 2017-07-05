@@ -18,6 +18,16 @@ influxdb_install:
     - watch:
       - file: influxdb_pkg
 
+influxdb_dirs:
+  file.directory:
+    - names:
+      - {{ server.data.dir }}
+      - {{ server.data.wal_dir }}
+    - user: influxdb
+    - group: influxdb
+    - makedirs: True
+
+
 influxdb_config:
   file.managed:
   - name: /etc/influxdb/influxdb.conf
