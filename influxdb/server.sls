@@ -26,6 +26,9 @@ influxdb_dirs:
     - user: influxdb
     - group: influxdb
     - makedirs: True
+    - recurse:
+      - user
+      - group
 
 
 influxdb_config:
